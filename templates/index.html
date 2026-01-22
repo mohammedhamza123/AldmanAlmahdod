@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}الرئيسية - شركة الضمان المحدود{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="/static/images/logo.png" alt="شعار شركة الضمان المحدود" class="hero-logo-img">
+            </div>
+            <h1 class="hero-title">مرحبًا بكم في شركة الضمان المحدود</h1>
+            <p class="hero-subtitle">لاستيراد المواد الغذائية والفواكه الطازجة</p>
+            <p class="hero-description">
+                نحن متخصصون في استيراد وتوريد أجود أنواع المواد الغذائية والفواكه الطازجة، 
+                مع الالتزام بأعلى معايير الجودة والسلامة لتلبية احتياجات السوق المحلي.
+            </p>
+            <div class="hero-buttons">
+                <a href="/services" class="btn btn-primary">استكشف خدماتنا</a>
+                <a href="/contact" class="btn btn-secondary">تواصل معنا</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">لماذا نحن</h2>
+        <p class="section-subtitle">نقدم لك أفضل الخدمات والمنتجات بأعلى معايير الجودة</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🥬</div>
+                <h3>جودة عالية</h3>
+                <p>نوفر أجود أنواع المواد الغذائية والفواكه الطازجة</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>توريد سريع</h3>
+                <p>خدمة توريد موثوقة للأسواق والمحلات</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>معايير الجودة</h3>
+                <p>الالتزام بأعلى معايير الجودة والتخزين</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>علاقات طويلة الأمد</h3>
+                <p>نحرص على بناء علاقات دائمة مع عملائنا</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

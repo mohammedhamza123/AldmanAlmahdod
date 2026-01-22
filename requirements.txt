@@ -1,0 +1,19 @@
+# FastAPI - إطار العمل الرئيسي لبناء API والموقع
+fastapi==0.104.1
+
+# Uvicorn - خادم ASGI لتشغيل FastAPI
+uvicorn[standard]==0.24.0
+
+# Jinja2 - محرك القوالب لعرض HTML
+jinja2==3.1.2
+
+# Python-multipart - معالجة نماذج HTML (POST requests)
+python-multipart==0.0.6
+
+# Itsdangerous - تشفير الجلسات وأمان الكوكيز
+itsdangerous==2.1.2
+
+# ملاحظة: sqlite3 و hashlib هما من المكتبات المدمجة في Python
+# لا تحتاج تثبيت إضافي
+
+

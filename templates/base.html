@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}شركة الضمان المحدود{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/" class="brand-link">
+                    <img src="/static/images/logo.png" alt="شعار شركة الضمان المحدود" class="logo-img">
+                    <h1>شركة الضمان المحدود</h1>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/about">من نحن</a></li>
+                <li><a href="/services">خدماتنا</a></li>
+                <li><a href="/contact">تواصل معنا</a></li>
+                <li><a href="/privacy">سياسة الخصوصية</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="/static/images/logo.png" alt="شعار شركة الضمان المحدود" class="footer-logo-img">
+                    </div>
+                    <h3>شركة الضمان المحدود</h3>
+                    <p>متخصصون في استيراد المواد الغذائية والفواكه الطازجة</p>
+                </div>
+                <div class="footer-section">
+                    <h3>معلومات التواصل</h3>
+                    <p>📍 {{ company.address }}</p>
+                    <p>📱 {{ company.phone1 }}</p>
+                    <p>📱 {{ company.phone2 }}</p>
+                    <p>✉️ <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="/">الرئيسية</a></li>
+                        <li><a href="/about">من نحن</a></li>
+                        <li><a href="/services">خدماتنا</a></li>
+                        <li><a href="/contact">تواصل معنا</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 شركة الضمان المحدود. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
+
