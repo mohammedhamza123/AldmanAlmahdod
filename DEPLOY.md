@@ -36,7 +36,7 @@
    - **Name:** aldamanalmahdod (أو أي اسم تريده)
    - **Environment:** Python 3
    - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+   - **Start Command:** `python -c "import os; port = int(os.environ.get('PORT', 8000)); import uvicorn; uvicorn.run('main:app', host='0.0.0.0', port=port)"`
 
 5. **إضافة متغيرات البيئة:**
    - اضغط على "Environment"

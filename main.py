@@ -30,17 +30,15 @@ def get_current_user(request: Request):
     try:
         username = serializer.loads(session_token, max_age=86400)  # 24 ساعة
         return username
-    except:
+    except Exception as e:
+        print(f"Error loading session: {e}")  # للتشخيص
         return None
 
 def require_auth(request: Request):
-    """يتطلب تسجيل الدخول"""
+    """يتطلب تسجيل الدخول - إرجاع RedirectResponse مباشرة"""
     user = get_current_user(request)
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_303_SEE_OTHER,
-            headers={"Location": "/admin/login"}
-        )
+        return RedirectResponse(url="/admin/login", status_code=303)
     return user
 
 # بيانات الشركة
@@ -134,16 +132,24 @@ async def admin_login(
     """تسجيل الدخول"""
     if database.verify_password(username, password):
         # إنشاء جلسة
-        session_token = serializer.dumps(username)
-        response = RedirectResponse(url="/admin/dashboard", status_code=303)
-        response.set_cookie(
-            key="session_token",
-            value=session_token,
-            max_age=86400,  # 24 ساعة
-            httponly=True,
-            samesite="lax"
-        )
-        return response
+        try:
+            session_token = serializer.dumps(username)
+            response = RedirectResponse(url="/admin/dashboard", status_code=303)
+            response.set_cookie(
+                key="session_token",
+                value=session_token,
+                max_age=86400,  # 24 ساعة
+                httponly=True,
+                samesite="lax",
+                secure=False  # True في الإنتاج مع HTTPS
+            )
+            return response
+        except Exception as e:
+            print(f"Error creating session: {e}")
+            return templates.TemplateResponse("admin/login.html", {
+                "request": request,
+                "error": "حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى."
+            })
     else:
         return templates.TemplateResponse("admin/login.html", {
             "request": request,
@@ -158,8 +164,13 @@ async def admin_logout():
     return response
 
 @app.get("/admin/dashboard", response_class=HTMLResponse)
-async def admin_dashboard(request: Request, user: str = Depends(require_auth)):
+async def admin_dashboard(request: Request):
     """لوحة التحكم - عرض الرسائل"""
+    # التحقق من تسجيل الدخول
+    user = get_current_user(request)
+    if not user:
+        return RedirectResponse(url="/admin/login", status_code=303)
+    
     messages = database.get_messages()
     unread_count = database.get_unread_count()
     
@@ -171,20 +182,32 @@ async def admin_dashboard(request: Request, user: str = Depends(require_auth)):
     })
 
 @app.post("/admin/message/{message_id}/read")
-async def mark_message_read(message_id: int, user: str = Depends(require_auth)):
+async def mark_message_read(message_id: int, request: Request):
     """تحديد الرسالة كمقروءة"""
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"status": "error", "message": "Unauthorized"}, status_code=401)
+    
     database.mark_as_read(message_id)
     return {"status": "success"}
 
 @app.post("/admin/message/{message_id}/delete")
-async def delete_message(message_id: int, user: str = Depends(require_auth)):
+async def delete_message(message_id: int, request: Request):
     """حذف رسالة"""
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"status": "error", "message": "Unauthorized"}, status_code=401)
+    
     database.delete_message(message_id)
     return {"status": "success"}
 
 @app.get("/admin/api/messages")
-async def get_messages_api(user: str = Depends(require_auth)):
+async def get_messages_api(request: Request):
     """API للحصول على الرسائل (للتحديث التلقائي)"""
+    user = get_current_user(request)
+    if not user:
+        return JSONResponse({"status": "error", "message": "Unauthorized"}, status_code=401)
+    
     messages = database.get_messages()
     unread_count = database.get_unread_count()
     
