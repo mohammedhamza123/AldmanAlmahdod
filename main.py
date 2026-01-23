@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from itsdangerous import URLSafeTimedSerializer
+from datetime import datetime
 import database
 
 app = FastAPI(title="شركة الضمان المحدود")
@@ -56,6 +57,23 @@ async def home(request: Request):
         "request": request,
         "company": company_data
     })
+
+# ========== Keep-Alive Endpoints (لإبقاء الاستضافة نشطة) ==========
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint لإبقاء الاستضافة نشطة"""
+    return {"status": "ok", "message": "Server is running"}
+
+@app.get("/ping")
+async def ping():
+    """Ping endpoint لإبقاء الاستضافة نشطة"""
+    return {"status": "pong", "timestamp": datetime.now().isoformat()}
+
+@app.get("/keep-alive")
+async def keep_alive():
+    """Keep-alive endpoint لإبقاء الاستضافة نشطة"""
+    return {"status": "alive", "message": "Server is active", "timestamp": datetime.now().isoformat()}
 
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
